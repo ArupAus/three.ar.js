@@ -106,6 +106,10 @@ function init() {
   });
   document.body.appendChild(arDebug.getElement());
 
+  vrDisplay.addEventListener('vrdisplayplanesadded', (event) => {
+    console.log(event.planes);
+  });
+
   // Creating the ARView, which is the object that handles
   // the rendering of the camera stream behind the three.js
   // scene

@@ -1228,101 +1228,46 @@ var ARPlanes = function (_Object3D) {
     var _this = _possibleConstructorReturn(this, (ARPlanes.__proto__ || Object.getPrototypeOf(ARPlanes)).call(this));
 
     _this.vrDisplay = vrDisplay;
-    _this.planes = [];
+    _this.planes = new Map();
 
     // A mapping of plane IDs to colors, so that we can reuse the same
     // color everytime we update for the same plane rather than randomizing
     // @TODO When we have plane removal events, clear this map so we don't
     // have a leak
     _this.materialMap = new Map();
-    return _this;
-  }
 
-  /**
-   * Clear out the THREE representation mesh from
-   * scene.
-   */
-
-
-  _createClass(ARPlanes, [{
-    key: 'clear',
-    value: function clear() {
-      var _this2 = this;
-
-      this.planes.forEach(function (plane) {
-        return _this2.remove(plane);
-      });
-      this.planes.length = 0;
-    }
-
-    /**
-     * Polling callback while enabled, used to fetch and orchestrate
-     * plane rendering. If successful, returns the number of planes found.
-     *
-     * @return {number?}
-     */
-
-  }, {
-    key: 'update',
-    value: function update() {
-      if (!this.vrDisplay || !this.vrDisplay.getPlanes) {
-        return;
+    var addPlane = function addPlane(plane) {
+      var planeObj = _this.createPlane(plane);
+      if (planeObj) {
+        _this.add(planeObj);
+        _this.planes.set(plane.identifier, planeObj);
       }
+    };
 
-      // Remove current planes and clear out
-      // from scene
-      this.clear();
+    var removePlane = function removePlane(identifier) {
+      var existing = _this.planes.get(identifier);
+      if (existing) {
+        _this.remove(existing);
+      }
+      _this.planes.delete(identifier);
+    };
 
-      // Recreate each plane detected
-      var planes = this.vrDisplay.getPlanes();
+    vrDisplay.addEventListener('planesadded', function (event) {
+      console.log(event.planes);
+      event.planes.forEach(addPlane);
+    });
+
+    vrDisplay.addEventListener('planesupdated', function (event) {
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
       var _iteratorError = undefined;
 
       try {
-        for (var _iterator = planes[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var anchor = _step.value;
+        for (var _iterator = event.planes[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var plane = _step.value;
 
-          if (anchor.vertices.length == 0) {
-            continue;
-          }
-
-          var id = anchor.identifier;
-          var planeObj = new _three.Object3D();
-          var mm = anchor.modelMatrix;
-          planeObj.matrixAutoUpdate = false;
-          planeObj.matrix.set(mm[0], mm[4], mm[8], mm[12], mm[1], mm[5], mm[9], mm[13], mm[2], mm[6], mm[10], mm[14], mm[3], mm[7], mm[11], mm[15]);
-
-          this.add(planeObj);
-          this.planes.push(planeObj);
-
-          var geo = new _three.Geometry();
-          // generate vertices
-          for (var pt = 0; pt < anchor.vertices.length / 3; pt++) {
-            geo.vertices.push(new _three.Vector3(anchor.vertices[pt * 3], anchor.vertices[pt * 3 + 1], anchor.vertices[pt * 3 + 2]));
-          }
-
-          // generate faces
-          for (var face = 0; face < geo.vertices.length - 2; face++) {
-            // this makes a triangle fan, from the first +Y point around
-            geo.faces.push(new _three.Face3(0, face + 1, face + 2));
-          }
-
-          var material = void 0;
-          if (this.materialMap.has(id)) {
-            // If we have a material stored for this plane already, reuse it
-            material = this.materialMap.get(id);
-          } else {
-            // Otherwise, generate a new color, and assign the color to
-            // this plane's ID
-            var color = (0, _ARUtils.getRandomPaletteColor)();
-            material = DEFAULT_MATERIAL.clone();
-            material.uniforms.backgroundColor.value = color;
-            this.materialMap.set(id, material);
-          }
-
-          var plane = new _three.Mesh(geo, material);
-          planeObj.add(plane);
+          removePlane(plane.identifier);
+          addPlane(plane);
         }
       } catch (err) {
         _didIteratorError = true;
@@ -1338,8 +1283,92 @@ var ARPlanes = function (_Object3D) {
           }
         }
       }
+    });
 
-      return planes.length;
+    vrDisplay.addEventListener('planesremoved', function (event) {
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
+
+      try {
+        for (var _iterator2 = event.planes[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var plane = _step2.value;
+
+          removePlane(plane.identifier);
+        }
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+            _iterator2.return();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
+          }
+        }
+      }
+    });
+    return _this;
+  }
+
+  _createClass(ARPlanes, [{
+    key: 'createPlane',
+    value: function createPlane(plane) {
+      if (plane.vertices.length == 0) {
+        return null;
+      }
+
+      var id = plane.identifier;
+      var planeObj = new _three.Object3D();
+      var mm = plane.modelMatrix;
+      planeObj.matrixAutoUpdate = false;
+      planeObj.matrix.set(mm[0], mm[4], mm[8], mm[12], mm[1], mm[5], mm[9], mm[13], mm[2], mm[6], mm[10], mm[14], mm[3], mm[7], mm[11], mm[15]);
+
+      var geo = new _three.Geometry();
+      // generate vertices
+      for (var pt = 0; pt < plane.vertices.length / 3; pt++) {
+        geo.vertices.push(new _three.Vector3(plane.vertices[pt * 3], plane.vertices[pt * 3 + 1], plane.vertices[pt * 3 + 2]));
+      }
+
+      // generate faces
+      for (var face = 0; face < geo.vertices.length - 2; face++) {
+        // this makes a triangle fan, from the first +Y point around
+        geo.faces.push(new _three.Face3(0, face + 1, face + 2));
+      }
+
+      var material = void 0;
+      if (this.materialMap.has(id)) {
+        // If we have a material stored for this plane already, reuse it
+        material = this.materialMap.get(id);
+      } else {
+        // Otherwise, generate a new color, and assign the color to
+        // this plane's ID
+        var color = (0, _ARUtils.getRandomPaletteColor)();
+        material = DEFAULT_MATERIAL.clone();
+        material.uniforms.backgroundColor.value = color;
+        this.materialMap.set(id, material);
+      }
+
+      var planeMesh = new _three.Mesh(geo, material);
+      planeObj.add(planeMesh);
+
+      return planeObj;
+    }
+
+    /**
+     * Polling callback while enabled, used to fetch and orchestrate
+     * plane rendering. If successful, returns the number of planes found.
+     *
+     * @return {number?}
+     */
+
+  }, {
+    key: 'update',
+    value: function update() {
+      return this.planes.size;
     }
   }]);
 
@@ -1891,7 +1920,6 @@ var ARVideoRenderer = function () {
       var gl = this.gl;
       var bindings = [gl.ARRAY_BUFFER_BINDING, gl.ELEMENT_ARRAY_BUFFER_BINDING, gl.CURRENT_PROGRAM];
       (0, _glPreserveState2.default)(gl, bindings, function () {
-
         gl.useProgram(_this.program);
         gl.bindBuffer(gl.ARRAY_BUFFER, _this.vertexPositionBuffer);
         gl.enableVertexAttribArray(_this.vertexPositionAttribute);

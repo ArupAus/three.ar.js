@@ -244,10 +244,9 @@ class ARVideoRenderer {
     const bindings = [
       gl.ARRAY_BUFFER_BINDING,
       gl.ELEMENT_ARRAY_BUFFER_BINDING,
-      gl.CURRENT_PROGRAM
+      gl.CURRENT_PROGRAM,
     ];
     WGLUPreserveGLState(gl, bindings, () => {
-
       gl.useProgram(this.program);
       gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexPositionBuffer);
       gl.enableVertexAttribArray(this.vertexPositionAttribute);
