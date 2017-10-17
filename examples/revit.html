@@ -68,7 +68,7 @@
 </head>
 <body>
 <div id="info">
-    <a href="https://github.com/google-ar/three.ar.js">three.ar.js</a><span class="title">Tap to spawn objects on surfaces 525</span>
+    <a href="https://github.com/google-ar/three.ar.js">three.ar.js</a><span class="title">Tap to spawn objects on surfaces 520</span>
 </div>
 <script src="../third_party/three.js/three.js"></script>
 <script src="../third_party/three.js/ColladaLoader.js"></script>
@@ -192,8 +192,8 @@ function init() {
 					elf = collada.scene;
 					
 					elf.scale.x = elf.scale.y = elf.scale.z = 0.01;
-					//elf.rotation.z = 90 * Math.PI/180;
-					//elf.rotation.x = -90 * Math.PI/180;
+					elf.rotation.z = 90 * Math.PI/180;
+					elf.rotation.x = -90 * Math.PI/180;
 					elf.updateMatrix();
 
 				} );
@@ -273,6 +273,9 @@ function onClick (e) {
     var hit = hits[0];
     // Use the `placeObjectAtHit` utility to position
     // the cube where the hit occurred
+	elf.scale.x = elf.scale.y = elf.scale.z = 0.01;
+	elf.rotation.z = 90 * Math.PI/180;
+	elf.rotation.x = -90 * Math.PI/180;
 					
     THREE.ARUtils.placeObjectAtHit(elf,  // The object to place
                                    hit,   // The VRHit object to move the cube to
