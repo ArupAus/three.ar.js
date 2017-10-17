@@ -275,7 +275,7 @@ function onClick (e) {
     // the cube where the hit occurred
     THREE.ARUtils.placeObjectAtHit(elf,  // The object to place
                                    hit,   // The VRHit object to move the cube to
-                                   false, // Whether or not we also apply orientation
+                                   true, // Whether or not we also apply orientation
                                    1);    // Easing value from 0 to 1; we want to move
                                           // the cube directly to the hit position
   }
