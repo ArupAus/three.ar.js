@@ -68,7 +68,7 @@
 </head>
 <body>
 <div id="info">
-    <a href="https://github.com/google-ar/three.ar.js">three.ar.js</a><span class="title">Tap to spawn objects on surfaces 457</span>
+    <a href="https://github.com/google-ar/three.ar.js">three.ar.js</a><span class="title">Tap to spawn objects on surfaces 505</span>
 </div>
 <script src="../third_party/three.js/three.js"></script>
 <script src="../third_party/three.js/ColladaLoader.js"></script>
@@ -146,6 +146,7 @@ function init() {
     vrDisplay.depthNear,
     vrDisplay.depthFar
   );
+  camera.lookAt( new THREE.Vector3( 0, 0, 3 ) );
 
   // VRControls is a utility from three.js that applies the device's
   // orientation/position to the perspective camera, keeping our
@@ -191,7 +192,7 @@ function init() {
 
 					elf = collada.scene;
 					
-					elf.scale.x = elf.scale.y = elf.scale.z = 0.002;
+					elf.scale.x = elf.scale.y = elf.scale.z = 0.01;
 					//elf.rotation.z = 90 * Math.PI/180;
 					//elf.rotation.x = -90 * Math.PI/180;
 					elf.updateMatrix();
