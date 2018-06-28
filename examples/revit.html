@@ -273,9 +273,10 @@ function onClick (e) {
     var hit = hits[0];
     // Use the `placeObjectAtHit` utility to position
     // the cube where the hit occurred
-	elf.scale.x = elf.scale.y = elf.scale.z = 1;
+	elf.scale.x = elf.scale.y = elf.scale.z = 0.002;
 	elf.rotation.z = 90 * Math.PI/180;
 	elf.rotation.x = -90 * Math.PI/180;
+	elf.position.x = 5.0; 
 					
     THREE.ARUtils.placeObjectAtHit(elf,  // The object to place
                                    hit,   // The VRHit object to move the cube to
