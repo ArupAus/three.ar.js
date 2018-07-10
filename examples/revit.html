@@ -68,7 +68,7 @@
 </head>
 <body>
 <div id="info">
-    <a href="https://github.com/google-ar/three.ar.js">three.ar.js</a><span class="title">Tap to spawn objects on surfaces 58</span>
+    <a href="https://github.com/google-ar/three.ar.js">three.ar.js</a><span class="title">Tap to spawn objects on surfaces 03</span>
 </div>
 <script src="../third_party/three.js/three.js"></script>
 <script src="../third_party/three.js/ColladaLoader.js"></script>
@@ -282,9 +282,9 @@ function onClick (e) {
                                    true, // Whether or not we also apply orientation
                                    1);    // Easing value from 0 to 1; we want to move
                                           // the cube directly to the hit position
-	elf.position.x += 0.0; // right
-	elf.position.y += 0.5; //
-	elf.position.z += 0.0; //
+	elf.position.x += 0.0; // left/right
+	elf.position.y += 0.0; // top/bottom
+	elf.position.z += 0.5; // front/back
   }
 }
 </script>
