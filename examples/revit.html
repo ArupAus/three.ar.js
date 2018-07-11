@@ -68,7 +68,7 @@
 </head>
 <body>
 <div id="info">
-    <a href="https://github.com/google-ar/three.ar.js">three.ar.js</a><span class="title">Tap to spawn objects on surfaces 57</span>
+    <a href="https://github.com/google-ar/three.ar.js">three.ar.js</a><span class="title">Tap to spawn objects on surfaces 02</span>
 </div>
 <script src="../third_party/three.js/three.js"></script>
 <script src="../third_party/three.js/OBJLoader.js"></script>
@@ -184,7 +184,7 @@ function init() {
 			console.log( Math.round( percentComplete, 2 ) + '% downloaded' );
 		}
 	};
-	var onError = function ( xhr ) { alert("error"); };
+	var onError = function ( xhr ) { console.log("error"); };
 	
   // add sign board
 	new THREE.MTLLoader()
@@ -194,6 +194,7 @@ function init() {
 			.setMaterials( materials )
 			.load( 'go.obj', function ( object ) {
 				signBoard = object;
+				signBoard.scale.x = signBoard.scale.y = signBoard.scale.z = 0.5;
 				signBoard.position.x = 0.0;
 				signBoard.position.y = 0.0;
 				signBoard.position.z = 0.0;
