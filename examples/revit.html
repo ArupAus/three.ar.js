@@ -68,7 +68,7 @@
 </head>
 <body>
 <div id="info">
-    <a href="https://github.com/google-ar/three.ar.js">three.ar.js</a><span class="title">Tap to spawn objects on surfaces 41</span>
+    <a href="https://github.com/google-ar/three.ar.js">three.ar.js</a><span class="title">Tap to spawn objects on surfaces 49</span>
 </div>
 <script src="../third_party/three.js/three.js"></script>
 <script src="../third_party/three.js/OBJLoader.js"></script>
@@ -195,17 +195,26 @@ function init() {
 					elf.updateMatrix();
 				} );*/
 	
-				var loader = new THREE.TDSLoader( );
-				loader.load( 'go.3ds', function ( object ) {
-					/*object.traverse( function ( child ) {
-						if ( child instanceof THREE.Mesh ) {
-							child.material.normalMap = normal;
-						}
-					} );*/
-					elf = object;
-					elf.scale.x = elf.scale.y = elf.scale.z = 0.03;
-					scene.add( elf );
-				});
+				var onProgress = function ( xhr ) {
+					if ( xhr.lengthComputable ) {
+						var percentComplete = xhr.loaded / xhr.total * 100;
+						console.log( Math.round( percentComplete, 2 ) + '% downloaded' );
+					}
+				};
+				var onError = function ( xhr ) { alert(xhr); };
+
+				new THREE.MTLLoader()
+					//.setPath( 'models/obj/male02/' )
+					.load( 'go.mtl', function ( materials ) {
+						materials.preload();
+						new THREE.OBJLoader()
+							.setMaterials( materials )
+							//.setPath( 'models/obj/male02/' )
+							.load( 'go.obj', function ( object ) {
+								elf = object;
+								scene.add( elf );
+							}, onProgress, onError );
+					} );
 
   // Bind our event handlers
   window.addEventListener('resize', onWindowResize, false);
