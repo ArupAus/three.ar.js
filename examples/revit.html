@@ -68,7 +68,7 @@
 </head>
 <body>
 <div id="info">
-    <a href="https://github.com/google-ar/three.ar.js">three.ar.js</a><span class="title">Tap to spawn objects on surfaces 51</span>
+    <a href="https://github.com/google-ar/three.ar.js">three.ar.js</a><span class="title">Tap to spawn objects on surfaces 10</span>
 </div>
 <script src="../third_party/three.js/three.js"></script>
 <script src="../third_party/three.js/OBJLoader.js"></script>
@@ -182,7 +182,7 @@ function init() {
   //scene.add(cube);
 	
 				// loading manager
-				/*var loadingManager = new THREE.LoadingManager( function() {
+				var loadingManager = new THREE.LoadingManager( function() {
 					scene.add( elf );
 				} );
 				// collada
@@ -194,30 +194,8 @@ function init() {
 					//elf.rotation.z = 90 * Math.PI/180;
 					//elf.rotation.x = -90 * Math.PI/180;
 					elf.updateMatrix();
-				} );*/
-	
-				var onProgress = function ( xhr ) {
-					if ( xhr.lengthComputable ) {
-						var percentComplete = xhr.loaded / xhr.total * 100;
-						console.log( Math.round( percentComplete, 2 ) + '% downloaded' );
-					}
-				};
-				var onError = function ( xhr ) { console.log(xhr); };
-	
-				THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
-
-				new THREE.MTLLoader()
-					//.setPath( 'models/obj/male02/' )
-					.load( 'go.mtl', function ( materials ) {
-						materials.preload();
-						new THREE.OBJLoader()
-							.setMaterials( materials )
-							//.setPath( 'models/obj/male02/' )
-							.load( 'go.obj', function ( object ) {
-								elf = object;
-								scene.add( elf );
-							}, onProgress, onError );
-					} );
+				} );	
+				
 
   // Bind our event handlers
   window.addEventListener('resize', onWindowResize, false);
@@ -301,7 +279,7 @@ function onClick (e) {
 	elf.scale.x = elf.scale.y = elf.scale.z = 0.03;
 	  
 	elf.rotation.z = -90 * Math.PI/180;
-	elf.rotation.x = 90 * Math.PI/180;
+	elf.rotation.x = 0 * Math.PI/180;
 	elf.rotation.y = 180 * Math.PI/180;
 	  
 	elf.position.x += 0.0; // left/right
