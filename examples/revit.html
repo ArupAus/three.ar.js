@@ -180,11 +180,11 @@ function init() {
 	
   // add sign board
 	new THREE.MTLLoader()
-	.load( 'sign.mtl', function ( materials ) {
+	.load( 'go.mtl', function ( materials ) {
 		materials.preload();
 		new THREE.OBJLoader()
 			.setMaterials( materials )
-			.load( 'sign.obj', function ( object ) {
+			.load( 'go.obj', function ( object ) {
 				signBoard = object;
 				signBoard.position.x = 0.0;
 				signBoard.position.y = 0.0;
