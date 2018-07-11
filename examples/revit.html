@@ -68,7 +68,7 @@
 </head>
 <body>
 <div id="info">
-    <a href="https://github.com/google-ar/three.ar.js">three.ar.js</a><span class="title">Tap to spawn objects on surfaces 20</span>
+    <a href="https://github.com/google-ar/three.ar.js">three.ar.js</a><span class="title">Tap to spawn objects on surfaces 23</span>
 </div>
 <script src="../third_party/three.js/three.js"></script>
 <script src="../third_party/three.js/OBJLoader.js"></script>
@@ -270,6 +270,7 @@ function onClick (e) {
 	elf.scale.x = elf.scale.y = elf.scale.z = 0.03;
 	elf.rotation.z = 90 * Math.PI/180;
 	elf.rotation.x = -90 * Math.PI/180;
+	elf.rotation.y = 90 * Math.PI/180;
 					
     THREE.ARUtils.placeObjectAtHit(elf,  // The object to place
                                    hit,   // The VRHit object to move the cube to
