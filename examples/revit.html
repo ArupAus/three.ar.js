@@ -68,7 +68,7 @@
 </head>
 <body>
 <div id="info">
-    <a href="https://github.com/google-ar/three.ar.js">three.ar.js</a><span class="title">Tap to spawn objects on surfaces 09</span>
+    <a href="https://github.com/google-ar/three.ar.js">three.ar.js</a><span class="title">Tap to spawn objects on surfaces 17</span>
 </div>
 <script src="../third_party/three.js/three.js"></script>
 <script src="../third_party/three.js/OBJLoader.js"></script>
@@ -188,7 +188,7 @@ function init() {
 				loader.load( 'go.dae', function ( collada ) {
 					elf = collada.scene;
 					
-					elf.scale.x = elf.scale.y = elf.scale.z = 0.2;
+					elf.scale.x = elf.scale.y = elf.scale.z = 0.1;
 					//elf.rotation.z = 90 * Math.PI/180;
 					//elf.rotation.x = -90 * Math.PI/180;
 					elf.updateMatrix();
@@ -267,7 +267,7 @@ function onClick (e) {
     var hit = hits[0];
     // Use the `placeObjectAtHit` utility to position
     // the cube where the hit occurred
-	elf.scale.x = elf.scale.y = elf.scale.z = 0.002;
+	elf.scale.x = elf.scale.y = elf.scale.z = 0.1;
 	//elf.rotation.z = 90 * Math.PI/180;
 	//elf.rotation.x = -90 * Math.PI/180;
 					
