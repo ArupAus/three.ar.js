@@ -68,10 +68,11 @@
 </head>
 <body>
 <div id="info">
-    <a href="https://github.com/google-ar/three.ar.js">three.ar.js</a><span class="title">Tap to spawn objects on surfaces 09</span>
+    <a href="https://github.com/google-ar/three.ar.js">three.ar.js</a><span class="title">Tap to spawn objects on surfaces 51</span>
 </div>
 <script src="../third_party/three.js/three.js"></script>
-<script src="../third_party/three.js/ColladaLoader.js"></script>
+<script src="../third_party/three.js/OBJLoader.js"></script>
+<script src="../third_party/three.js/MTLLoader.js"></script>
 <script src="../third_party/three.js/VRControls.js"></script>
 <script src="../dist/three.ar.js"></script>
 <script>
@@ -85,7 +86,7 @@ var camera;
 var scene;
 var renderer;
 var cube;
-var elf;
+var signBoard;
 
 var colors = [
   new THREE.Color( 0xffffff ),
@@ -175,30 +176,22 @@ function init() {
 
   // Place the cube very far to initialize
   cube.position.set(10000, 10000, 10000);
-  
-				// loading manager
-
-				var loadingManager = new THREE.LoadingManager( function() {
-
-					scene.add( elf );
-
-				} );
-
-				// collada
-
-				var loader = new THREE.ColladaLoader( loadingManager );
-				loader.load( 'rst_basic_sample_project.dae', function ( collada ) {
-
-					elf = collada.scene;
-					
-					elf.scale.x = elf.scale.y = elf.scale.z = 0.002;
-					elf.rotation.z = 90 * Math.PI/180;
-					elf.rotation.x = -90 * Math.PI/180;
-					elf.updateMatrix();
-
-				} );
-
-  scene.add(cube);
+  //scene.add(cube);
+	
+  // add sign board
+	new THREE.MTLLoader()
+	.load( 'sign.mtl', function ( materials ) {
+		materials.preload();
+		new THREE.OBJLoader()
+			.setMaterials( materials )
+			.load( 'sign.obj', function ( object ) {
+				signBoard = object;
+				signBoard.position.x = 0.0;
+				signBoard.position.y = 0.0;
+				signBoard.position.z = 0.0;
+				scene.add( signBoard );
+			}, onProgress, onError );
+	} );
 
   // Bind our event handlers
   window.addEventListener('resize', onWindowResize, false);
@@ -273,18 +266,16 @@ function onClick (e) {
     var hit = hits[0];
     // Use the `placeObjectAtHit` utility to position
     // the cube where the hit occurred
-	elf.scale.x = elf.scale.y = elf.scale.z = 0.002;
-	elf.rotation.z = 90 * Math.PI/180;
-	elf.rotation.x = -90 * Math.PI/180;
+	signBoard.scale.x = signBoard.scale.y = signBoard.scale.z = 0.5;
 					
     THREE.ARUtils.placeObjectAtHit(elf,  // The object to place
                                    hit,   // The VRHit object to move the cube to
                                    true, // Whether or not we also apply orientation
                                    1);    // Easing value from 0 to 1; we want to move
                                           // the cube directly to the hit position
-	elf.position.x += 0.5; // left/right
-	elf.position.y += 1.5; // top/bottom
-	elf.position.z -= 3.0; // front/back
+	elf.position.x += 0.0; // left/right
+	elf.position.y += 0.0; // top/bottom
+	elf.position.z += 0.0; // front/back
   }
 }
 </script>
