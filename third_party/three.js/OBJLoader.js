@@ -1,5 +1,5 @@
 /**
- * @author mrdoob / http://mrdoob.com/
+ * @author mrdoob / http://mrdoob.com/ 20180711
  */
 
 THREE.OBJLoader = ( function () {
