@@ -68,7 +68,7 @@
 </head>
 <body>
 <div id="info">
-    <a href="https://github.com/google-ar/three.ar.js">three.ar.js</a><span class="title">Tap to spawn objects on surfaces 23</span>
+    <a href="https://github.com/google-ar/three.ar.js">three.ar.js</a><span class="title">Tap to spawn objects on surfaces 25</span>
 </div>
 <script src="../third_party/three.js/three.js"></script>
 <script src="../third_party/three.js/OBJLoader.js"></script>
@@ -266,17 +266,19 @@ function onClick (e) {
   if (hits && hits.length) {
     var hit = hits[0];
     // Use the `placeObjectAtHit` utility to position
-    // the cube where the hit occurred
-	elf.scale.x = elf.scale.y = elf.scale.z = 0.03;
-	elf.rotation.z = 90 * Math.PI/180;
-	elf.rotation.x = -90 * Math.PI/180;
-	elf.rotation.y = 90 * Math.PI/180;
+    // the cube where the hit occurred	
 					
     THREE.ARUtils.placeObjectAtHit(elf,  // The object to place
                                    hit,   // The VRHit object to move the cube to
                                    true, // Whether or not we also apply orientation
                                    1);    // Easing value from 0 to 1; we want to move
                                           // the cube directly to the hit position
+	elf.scale.x = elf.scale.y = elf.scale.z = 0.03;
+	  
+	elf.rotation.z = -90 * Math.PI/180;
+	elf.rotation.x = 90 * Math.PI/180;
+	elf.rotation.y = -90 * Math.PI/180;
+	  
 	elf.position.x += 0.0; // left/right
 	elf.position.y += 0.0; // top/bottom0
 	elf.position.z += 0.0; // front/back
