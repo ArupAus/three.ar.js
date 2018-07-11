@@ -68,12 +68,13 @@
 </head>
 <body>
 <div id="info">
-    <a href="https://github.com/google-ar/three.ar.js">three.ar.js</a><span class="title">Tap to spawn objects on surfaces 30</span>
+    <a href="https://github.com/google-ar/three.ar.js">three.ar.js</a><span class="title">Tap to spawn objects on surfaces 41</span>
 </div>
 <script src="../third_party/three.js/three.js"></script>
 <script src="../third_party/three.js/OBJLoader.js"></script>
 <script src="../third_party/three.js/MTLLoader.js"></script>
 <script src="../third_party/three.js/ColladaLoader.js"></script>
+<script src="../third_party/three.js/TDSLoader.js"></script>
 <script src="../third_party/three.js/VRControls.js"></script>
 <script src="../dist/three.ar.js"></script>
 <script>
@@ -180,7 +181,7 @@ function init() {
   //scene.add(cube);
 	
 				// loading manager
-				var loadingManager = new THREE.LoadingManager( function() {
+				/*var loadingManager = new THREE.LoadingManager( function() {
 					scene.add( elf );
 				} );
 				// collada
@@ -192,7 +193,19 @@ function init() {
 					//elf.rotation.z = 90 * Math.PI/180;
 					//elf.rotation.x = -90 * Math.PI/180;
 					elf.updateMatrix();
-				} );
+				} );*/
+	
+				var loader = new THREE.TDSLoader( );
+				loader.load( 'go.3ds', function ( object ) {
+					/*object.traverse( function ( child ) {
+						if ( child instanceof THREE.Mesh ) {
+							child.material.normalMap = normal;
+						}
+					} );*/
+					elf = object;
+					elf.scale.x = elf.scale.y = elf.scale.z = 0.03;
+					scene.add( elf );
+				});
 
   // Bind our event handlers
   window.addEventListener('resize', onWindowResize, false);
